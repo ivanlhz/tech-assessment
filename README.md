@@ -28,7 +28,19 @@ Estas son las notas de Ivan Llorente sobre la prueba técnica y del porque de ci
 ## Sobre DOCKER y la Base de Datos
 Aunque en la prueba tecnica no se explica explicitamente que el archivo DB.json son datos exportados de una base de datos MongoDB, al ver que este contenido oid, decidi crear un contenedor de MongoDB con el archivo DB.json importado.
 
-A continuacion se explica el proceso de creacion del contenedor de MongoDB para que pueda ser utilizado en el proyecto de manera local:
+## Paginación y Mejoras de Rendimiento en el Backend
+
+Para optimizar la consulta de usuarios y asegurar que la aplicación sea escalable, se ha implementado una paginación en el endpoint `GET /users`. A continuación, se detallan las decisiones tomadas:
+
+1.  **Paginación del Lado del Servidor:**
+    - Se modificó el endpoint para que acepte los parámetros de consulta `page` y `limit` (ej: `/users?page=1&limit=10`).
+    - Esto evita cargar la lista completa de usuarios en una sola petición, reduciendo el consumo de memoria y mejorando drásticamente los tiempos de respuesta, especialmente con grandes volúmenes de datos.
+
+2.  **Indexación Automática con Timestamps:**
+    - En el esquema de Mongoose para la entidad `User` (`user.entity.ts`), se ha añadido la opción `{ timestamps: true }`.
+    - Esta configuración instruye a Mongoose para que añada y gestione automáticamente los campos `createdAt` y `updatedAt` en cada documento.
+    - **Decisión Clave:** Mongoose, por defecto, crea un índice en el campo `createdAt`. Al ordenar los resultados de la paginación por este campo, nos beneficiamos de este índice, lo que resulta en consultas de ordenación mucho más rápidas y eficientes a nivel de base de datos.
+
 
 ### Cómo levantar el entorno
 
