@@ -42,6 +42,34 @@ Para optimizar la consulta de usuarios y asegurar que la aplicación sea escalab
     - **Decisión Clave:** Mongoose, por defecto, crea un índice en el campo `createdAt`. Al ordenar los resultados de la paginación por este campo, nos beneficiamos de este índice, lo que resulta en consultas de ordenación mucho más rápidas y eficientes a nivel de base de datos.
 
 
+## Arquitectura del Frontend (Core)
+
+Para el frontend, se ha implementado una arquitectura limpia (`Clean Architecture`) en el directorio `apps/frontend/src/core`. El objetivo es separar la lógica de negocio de los detalles de la interfaz de usuario (UI) y de las fuentes de datos, logrando un código más mantenible, escalable y fácil de testear.
+
+La estructura se divide en dos capas principales:
+
+### 1. Capa de Dominio (`/domain`)
+
+Esta capa es el corazón de la lógica de negocio y no tiene dependencias externas (no sabe nada de React, APIs, etc.).
+
+- **`entities`**: Contiene las definiciones de las estructuras de datos principales de la aplicación (ej: `user.entity.ts`). Son objetos de negocio puros.
+- **`repositories`**: Define las interfaces (`contratos`) que describen las operaciones que se pueden realizar con los datos (ej: `user.repository.ts`). No se preocupa de *cómo* se obtienen los datos, solo de *qué* operaciones existen.
+- **`use-cases`**: Orquesta la lógica de negocio. Cada caso de uso representa una acción específica del usuario (ej: `get-users.use-case.ts`, `create-user.use-case.ts`). La UI solo interactuará con estos casos de uso.
+
+### 2. Capa de Datos (`/data`)
+
+Esta capa es la responsable de implementar los contratos definidos en el dominio y de gestionar las fuentes de datos.
+
+- **`data-sources`**: Contiene la implementación concreta para acceder a los datos. En este caso, `user.api.datasource.ts` utiliza `axios` para comunicarse con la API REST del backend.
+- **`mappers`**: Se encarga de transformar los datos que vienen de la API a las `entidades` del dominio, y viceversa. Esto desacopla nuestra aplicación de la estructura de datos de la API.
+- **`repositories`**: Implementa las interfaces del repositorio del dominio (ej: `user.repository.impl.ts`), utilizando el `DataSource` y los `Mappers` para cumplir con el contrato.
+
+### Flujo de Dependencias y Conexión (`dependencies.ts`)
+
+El fichero `core/dependencies.ts` actúa como un inyector de dependencias simple. Crea una única instancia de las implementaciones de los repositorios y las "inyecta" en los casos de uso. Finalmente, exporta las instancias de los casos de uso para que puedan ser consumidos por la capa de UI (React, `React Query`) de una manera limpia y desacoplada.
+
+Este enfoque asegura que la UI solo conozca los casos de uso, manteniendo la lógica de negocio y el acceso a datos completamente aislados.
+
 ### Cómo levantar el entorno
 
 **Requisitos:**
