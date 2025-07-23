@@ -150,7 +150,7 @@ const StyledButton = styled.button<StyledButtonProps>`
   `}
 `;
 
-const LoadingSpinner = styled.div`
+const LoadingSpinner = styled.div.attrs({ role: 'status' })`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -209,18 +209,3 @@ export const Button: React.FC<ButtonProps> = ({
     </StyledButton>
   );
 };
-
-// src/components/ui/Button/index.ts
-
-
-// Ejemplo de uso:
-// import { Button } from './components/ui/Button';
-// import { UserIcon } from './components/icons';
-// 
-// <Button variant="primary" leftIcon={<UserIcon size={16} />}>
-//   Editar estudiante
-// </Button>
-// 
-// <Button variant="secondary">
-//   Cancelar
-// </Button>
