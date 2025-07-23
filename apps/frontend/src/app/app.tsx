@@ -1,6 +1,7 @@
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 
 import NxWelcome from './nx-welcome';
+import { theme } from '../theme/theme';
 
 const StyledApp = styled.div`
   // Your style here
@@ -8,9 +9,11 @@ const StyledApp = styled.div`
 
 export function App() {
   return (
-    <StyledApp>
-      <NxWelcome title="frontend" />
-    </StyledApp>
+    <ThemeProvider theme={theme}>
+      <StyledApp>
+        <NxWelcome title="frontend" />
+      </StyledApp>
+    </ThemeProvider>
   );
 }
 
