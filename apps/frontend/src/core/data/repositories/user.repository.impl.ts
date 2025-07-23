@@ -8,7 +8,6 @@ export class UserRepositoryImpl implements UserRepository {
   async getUsers(page: number, limit: number): Promise<PaginatedResponse<User>> {
     const paginatedApiResult = await userApiDataSource.getUsers(page, limit);
     
-    // Mapeamos solo el array de datos, manteniendo el resto de la paginación
     const mappedUsers = UserMapper.fromApiToEntityList(paginatedApiResult.data);
 
     return {

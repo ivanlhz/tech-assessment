@@ -23,7 +23,7 @@ PD: El objetivo de la prueba es simplemente valorar las desiciones que toma el c
 Una vez finalizada la prueba se deberá entregar en un archivo comprimido (zip, tar.gz, etc) con el nombre del candidato.
 
 # Notas del candidato:
-Estas son las notas de Ivan Llorente sobre la prueba técnica y del porque de ciertas decisiones.
+Estas son las notas de Ivan López Hernández sobre la prueba técnica y del porque de ciertas decisiones.
 
 ## Sobre DOCKER y la Base de Datos
 Aunque en la prueba tecnica no se explica explicitamente que el archivo DB.json son datos exportados de una base de datos MongoDB, al ver que este contenido oid, decidi crear un contenedor de MongoDB con el archivo DB.json importado.
