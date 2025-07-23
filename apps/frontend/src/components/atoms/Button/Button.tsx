@@ -1,6 +1,4 @@
 // src/components/ui/Button/Button.tsx
-
-import React from 'react';
 import styled, { css } from 'styled-components';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
