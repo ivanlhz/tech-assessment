@@ -5,8 +5,8 @@ import { colors } from './colors';
 // Typography
 const typography = {
   fontFamily: {
-    primary: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-    secondary: '"Poppins", sans-serif'
+    primary: '"Poppins", sans-serif',
+    secondary: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
   },
   fontSize: {
     xs: '0.75rem',    // 12px

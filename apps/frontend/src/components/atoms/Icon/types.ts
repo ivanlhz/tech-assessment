@@ -1,6 +1,7 @@
 export const iconNames = [
   'arrow-down',
   'arrow-left',
+  'arrow-right',
   'circle-exclamation',
   'circle-plus',
   'circle-user',

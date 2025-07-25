@@ -1,18 +1,13 @@
-import styled, { ThemeProvider } from 'styled-components';
-
-import NxWelcome from './nx-welcome';
+import { ThemeProvider } from 'styled-components';
+import { GlobalStyles } from '../theme/GlobalStyles';
 import { theme } from '../theme/theme';
-
-const StyledApp = styled.div`
-  // Your style here
-`;
+import { UsersPage } from '../components/pages/UsersPage';
 
 export function App() {
   return (
     <ThemeProvider theme={theme}>
-      <StyledApp>
-        <NxWelcome title="frontend" />
-      </StyledApp>
+      <GlobalStyles />
+      <UsersPage />
     </ThemeProvider>
   );
 }

@@ -17,6 +17,7 @@
     "@nestjs/mongoose": "^11.0.3",
     "@nestjs/platform-express": "^10.0.2",
     "@swc/helpers": "~0.5.2",
+    "@tanstack/react-table": "^8.21.3",
     "axios": "^1.10.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
@@ -31,6 +32,7 @@
     "vite-plugin-svgr": "^4.3.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^9.9.0",
     "@nestjs/schematics": "^10.0.1",
     "@nestjs/testing": "^10.0.2",
     "@nx/eslint": "17.2.8",
