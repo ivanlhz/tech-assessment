@@ -11,9 +11,8 @@ export const UsersPage = () => {
         <Typography variant="h1">
           Alumnos
         </Typography>
-        <Button size="lg">
-          <Icon name="circle-plus" size={20} />
-          <span>Nuevo alumno</span>
+        <Button size="lg" leftIcon={<Icon name="circle-plus" size={20} />}>
+          <b>Nuevo alumno</b>
         </Button>
       </Header>
       <main>

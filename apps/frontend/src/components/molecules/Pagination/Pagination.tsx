@@ -99,7 +99,7 @@ import { Icon } from "../../atoms";
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            <Icon name="arrow-left" size={12} />
+            <Icon name="arrow-right" size={12} />
           </PageButton>
         </PaginationControls>
         <ItemsPerPageWrapper>

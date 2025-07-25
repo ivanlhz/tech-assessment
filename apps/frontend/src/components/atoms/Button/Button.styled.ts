@@ -89,9 +89,10 @@ const buttonSizes = {
 };
 
 export const StyledButton = styled.button<StyledButtonProps>`
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
+  
   gap: ${({ theme }) => theme.spacing[2]};
   font-family: ${({ theme }) => theme.typography.fontFamily.primary};
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};

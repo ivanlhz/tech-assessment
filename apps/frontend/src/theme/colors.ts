@@ -48,6 +48,7 @@ export const colors = {
     
     // Table & Pagination
     table: {
+      background: '#EEF0F5',
       text: '#262D34',
       currentPageBorder: '#0ABB87',
       currentPageText: '#0ABB87',

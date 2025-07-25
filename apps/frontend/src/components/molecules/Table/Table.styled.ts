@@ -19,12 +19,12 @@ export const StyledTable = styled.table`
   }
 
   thead {
-    background-color: ${({ theme }) => theme.colors.background.secondary};
+    background-color: ${({ theme }) => theme.colors.table.background};
     th {
-      color: ${({ theme }) => theme.colors.text.secondary};
+      color: ${({ theme }) => theme.colors.table.text};
       font-size: ${({ theme }) => theme.typography.fontSize.sm};
-      font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
-      text-transform: uppercase;
+      font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
+      text-transform: capitalize;
     }
   }
 
