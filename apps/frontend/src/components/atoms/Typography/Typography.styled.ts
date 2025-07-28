@@ -48,7 +48,16 @@ export const StyledTypography = styled.p<TypographyProps>`
 
   ${({ variant = 'body' }) => variantStyles[variant as TypographyVariant]};
 
-  color: ${({ theme, color }) => (color ? theme.colors[color] : theme.colors.text)};
+  color: ${({ theme, color }) => {
+    if (color === 'error') {
+      return theme.colors.status.error;
+    }
+
+    if (color && theme.colors[color] && typeof theme.colors[color] === 'object' && 'main' in theme.colors[color]) {
+      return (theme.colors[color] as { main: string }).main;
+    }
+    return theme.colors.text.primary;
+  }};
 
   ${({ theme, fontWeight }) =>
     fontWeight &&

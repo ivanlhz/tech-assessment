@@ -4,6 +4,12 @@ export const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  margin-bottom: ${({ theme }) => theme.spacing[4]};
+
+  & > p {
+    margin-top: ${({ theme }) => theme.spacing[1]};
+    color: ${({ theme }) => theme.colors.status.error};
+  }
 `;
 
 export const Label = styled.label`

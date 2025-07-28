@@ -7,7 +7,7 @@ export interface TypographyProps {
   children: ReactNode;
   variant?: TypographyVariant;
   as?: keyof JSX.IntrinsicElements;
-  color?: keyof DefaultTheme['colors'];
+  color?: keyof DefaultTheme['colors'] | 'error';
   fontWeight?: keyof DefaultTheme['typography']['fontWeight'];
   className?: string;
 }

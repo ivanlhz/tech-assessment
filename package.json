@@ -10,6 +10,7 @@
   },
   "private": true,
   "dependencies": {
+    "@hookform/resolvers": "^5.2.0",
     "@nestjs/common": "^10.0.2",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^10.0.2",
@@ -24,12 +25,14 @@
     "mongoose": "^8.16.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.61.1",
     "react-is": "18.2.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
     "styled-components": "5.3.6",
     "tslib": "^2.3.0",
-    "vite-plugin-svgr": "^4.3.0"
+    "vite-plugin-svgr": "^4.3.0",
+    "zod": "^4.0.10"
   },
   "devDependencies": {
     "@faker-js/faker": "^9.9.0",
