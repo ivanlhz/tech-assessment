@@ -1,56 +1,45 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Table } from '../../molecules/Table';
-import { Badge } from '../../atoms/Badge';
-import { User } from './UserTable.types';
-import { mockUsers } from '../../../fixtures/users';
+import { User } from '../../../core/domain/entities/user.entity';
 
-export const UserTable = () => {
-  const [data] = useState(mockUsers);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(20);
+interface UserTableProps {
+  users: User[];
+  totalItems: number;
+  currentPage: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+  onItemsPerPageChange: (items: number) => void;
+}
 
+export const UserTable = ({ 
+  users,
+  totalItems,
+  currentPage,
+  itemsPerPage,
+  onPageChange,
+  onItemsPerPageChange 
+}: UserTableProps) => {
   const columns = useMemo<ColumnDef<User>[]>(() => [
     {
-      header: '',
-      accessorKey: 'status',
-      cell: ({ row }) => (
-        <Badge variant={row.original.status}>
-          {row.original.status === 'active' ? 'Activo' : 'Inactivo'}
-        </Badge>
-      ),
-    },
-
-    {
-      header: 'Nombre y apellidos',
-      accessorKey: 'fullName',
-      cell: ({ row }) => (
-        <span>{row.original.fullName}</span>
-      ),
-    },
-    {
-      header: 'Usuario',
-      accessorKey: 'username',
+      header: 'Nombre',
+      accessorKey: 'name',
     },
     {
       header: 'Email',
       accessorKey: 'email',
     },
-    {
-      header: 'Móvil',
-      accessorKey: 'phone',
-    },
   ], []);
 
   return (
     <Table<User>
-      data={data}
+      data={users}
       columns={columns}
-      totalItems={1237} // Mock total items from screenshot
+      totalItems={totalItems}
       itemsPerPage={itemsPerPage}
       currentPage={currentPage}
-      onPageChange={setCurrentPage}
-      onItemsPerPageChange={setItemsPerPage}
+      onPageChange={onPageChange}
+      onItemsPerPageChange={onItemsPerPageChange}
     />
   );
 };
