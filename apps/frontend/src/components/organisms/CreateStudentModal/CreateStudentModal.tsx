@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Modal } from '../../atoms/Modal';
@@ -11,28 +12,37 @@ interface CreateStudentModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (data: CreateStudentFormValues) => void;
+  isSubmitting: boolean;
 }
 
-const CreateStudentModal: React.FC<CreateStudentModalProps> = ({ isOpen, onClose, onSubmit }) => {
+const CreateStudentModal: React.FC<CreateStudentModalProps> = ({ isOpen, onClose, onSubmit, isSubmitting }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<CreateStudentFormValues>({
-    resolver: zodResolver(createStudentSchema),
+        resolver: zodResolver(createStudentSchema),
+
     defaultValues: {
       name: '',
       lastName: '',
       username: '',
       email: '',
-      mobile: '',
+      phone: '',
     },
   });
+
+  useEffect(() => {
+    if (!isOpen) {
+      reset();
+    }
+  }, [isOpen, reset]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <Title>Crear Alumno</Title>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+            <Form onSubmit={handleSubmit(onSubmit)}>
         <Input
           label="Nombre"
           {...register('name')}
@@ -56,12 +66,14 @@ const CreateStudentModal: React.FC<CreateStudentModalProps> = ({ isOpen, onClose
         />
         <Input
           label="Móvil"
-          {...register('mobile')}
-          error={errors.mobile?.message}
+          {...register('phone')}
+          error={errors.phone?.message}
         />
         <ButtonWrapper>
           <Button type="button" variant="secondary" onClick={onClose}>Cancelar</Button>
-          <Button type="submit" variant="primary">Guardar</Button>
+          <Button type="submit" variant="primary" disabled={isSubmitting}>
+            {isSubmitting ? 'Guardando...' : 'Guardar'}
+          </Button>
         </ButtonWrapper>
       </Form>
     </Modal>

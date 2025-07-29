@@ -1,10 +1,13 @@
 import axios from 'axios';
-import { PaginatedResponse } from '../../domain/entities/paginated-response.entity';
+import { PaginatedResponse } from '../domain/paginated-response.entity';
 
 export interface ApiUser {
   _id: string;
   name: string;
+  lastName: string;
   email: string;
+  username: string;
+  phone?: string;
   createdAt: string;
 }
 
@@ -46,7 +49,7 @@ class UserApiDataSource {
     }
   }
 
-  async update(id: string, user: Partial<Omit<ApiUser, '_id' | 'createdAt'>>): Promise<ApiUser> {
+  async update(id: string, user: Partial<Omit<ApiUser, '_id'>>): Promise<ApiUser> {
     try {
       const response = await this.apiClient.patch<ApiUser>(`/users/${id}`, user);
       return response.data;

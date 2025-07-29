@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { CreateUserUseCase } from './createUser.useCase';
-import { UserRepository } from '../repositories/user.repository';
-import { User } from '../entities/user.entity';
+import { UserRepository } from '../domain/user.repository';
+import { User } from '../domain/user.entity';
 
 // Mock del repositorio
 const mockUserRepository: UserRepository = {
@@ -24,13 +24,17 @@ describe('CreateUserUseCase', () => {
     it('should create and return new user', async () => {
       const newUserData = {
         name: 'Nuevo Usuario',
-        email: 'nuevo@example.com'
+        lastName: 'Apellido',
+        email: 'nuevo@example.com',
+        username: 'nuevo'
       };
 
       const createdUser: User = {
         id: '507f1f77bcf86cd799439011',
+        lastName: 'Apellido',
         name: 'Nuevo Usuario',
-        email: 'nuevo@example.com'
+        email: 'nuevo@example.com',
+        username: 'nuevo'
       };
 
       vi.mocked(mockUserRepository.create).mockResolvedValue(createdUser);
@@ -45,13 +49,17 @@ describe('CreateUserUseCase', () => {
     it('should handle user creation with special characters', async () => {
       const newUserData = {
         name: 'José María Ñoño',
-        email: 'josé.maría@dominio.es'
+        lastName: 'Apellido',
+        email: 'josé.maría@dominio.es',
+        username: 'jose'
       };
 
       const createdUser: User = {
         id: '507f1f77bcf86cd799439012',
+        lastName: 'Apellido',
         name: 'José María Ñoño',
-        email: 'josé.maría@dominio.es'
+        email: 'josé.maría@dominio.es',
+        username: 'jose'
       };
 
       vi.mocked(mockUserRepository.create).mockResolvedValue(createdUser);
@@ -65,7 +73,9 @@ describe('CreateUserUseCase', () => {
     it('should propagate repository errors', async () => {
       const newUserData = {
         name: 'Usuario Test',
-        email: 'test@example.com'
+        lastName: 'Apellido',
+        email: 'test@example.com',
+        username: 'testuser'
       };
 
       const errorMessage = 'Email already exists';
@@ -75,16 +85,20 @@ describe('CreateUserUseCase', () => {
       expect(mockUserRepository.create).toHaveBeenCalledWith(newUserData);
     });
 
-    it('should handle empty name and email', async () => {
+    it('should create a user with complete data', async () => {
       const newUserData = {
-        name: '',
-        email: ''
+        name: 'John',
+        lastName: 'Doe',
+        email: 'john.doe@example.com',
+        username: 'johndoe'
       };
 
       const createdUser: User = {
         id: '507f1f77bcf86cd799439013',
-        name: '',
-        email: ''
+        name: 'John',
+        lastName: 'Doe',
+        email: 'john.doe@example.com',
+        username: 'johndoe'
       };
 
       vi.mocked(mockUserRepository.create).mockResolvedValue(createdUser);

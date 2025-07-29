@@ -21,7 +21,7 @@ const mockUser = {
   name: 'Test User',
   lastName: 'User lastname',
   email: 'test@example.com',
-  password: 'password',
+  username: 'testuser',
 };
 
 describe('UsersService', () => {
@@ -60,7 +60,7 @@ describe('UsersService', () => {
 
   describe('create', () => {
     it('should create a new user', async () => {
-      const createUserDto: CreateUserDto = { name: 'Test User', lastName: 'User lastname', email: 'test@example.com', password: 'password' };
+      const createUserDto: CreateUserDto = { name: 'Test User', lastName: 'User lastname', email: 'test@example.com', username: 'testuser' };
       
       const result = await service.create(createUserDto);
 

@@ -1,9 +1,9 @@
-import { GetUsersUseCase } from './domain/useCases/getUsers.useCase';
-import { FindUserByIdUseCase } from './domain/useCases/findUserById.useCase';
-import { CreateUserUseCase } from './domain/useCases/createUser.useCase';
-import { UpdateUserUseCase } from './domain/useCases/updateUser.useCase';
-import { DeleteUserUseCase } from './domain/useCases/deleteUser.useCase';
-import { UserRepositoryImpl } from './data/repositories/user.repository.impl';
+import { GetUsersUseCase } from './user/useCases/getUsers.useCase';
+import { FindUserByIdUseCase } from './user/useCases/findUserById.useCase';
+import { CreateUserUseCase } from './user/useCases/createUser.useCase';
+import { UpdateUserUseCase } from './user/useCases/updateUser.useCase';
+import { DeleteUserUseCase } from './user/useCases/deleteUser.useCase';
+import { UserRepositoryImpl } from './user/repositories/user.repository.impl';
 
 // ====================================================================================
 //                                     REPOSITORIES

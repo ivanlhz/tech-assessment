@@ -1,5 +1,5 @@
-import { User } from '../entities/user.entity';
-import { PaginatedResponse } from '../entities/paginated-response.entity';
+import { User } from './user.entity';
+import { PaginatedResponse } from './paginated-response.entity';
 
 export interface UserRepository {
   getUsers(page: number, limit: number): Promise<PaginatedResponse<User>>;

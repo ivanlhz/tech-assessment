@@ -6,6 +6,8 @@ import { UserTable } from '../../organisms/UserTable';
 import { Header, PageWrapper } from './UsersPage.styled';
 import CreateStudentModal from '../../organisms/CreateStudentModal';
 import { useGetUsers } from '../../../hooks/useGetUsers';
+import { useCreateUser } from '../../../hooks/useCreateUser';
+import { CreateStudentFormValues } from '../../organisms/CreateStudentModal/CreateStudentModal.schema';
 
 export const UsersPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -13,6 +15,7 @@ export const UsersPage = () => {
   const [itemsPerPage, setItemsPerPage] = useState(20);
 
   const { data: paginatedUsers, isLoading, isError } = useGetUsers(currentPage, itemsPerPage);
+  const { mutateAsync: createUser, isPending: isCreating} = useCreateUser();
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -22,13 +25,22 @@ export const UsersPage = () => {
     setIsModalOpen(false);
   };
 
+  const handleSubmit = async (data: CreateStudentFormValues) => {
+    try {
+      await createUser(data);
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error('Error al crear el usuario:', error);
+    }
+  };
+
   // TODO: Add loading and error states to the UI
   if (isLoading) return <div>Cargando...</div>;
   if (isError) return <div>Error al cargar los alumnos</div>;
 
   return (
     <PageWrapper>
-      <CreateStudentModal isOpen={isModalOpen} onClose={handleCloseModal} onSubmit={() => {}} />
+      <CreateStudentModal isOpen={isModalOpen} onClose={handleCloseModal} onSubmit={handleSubmit} isSubmitting={isCreating} />
       <Header>
         <Typography variant="h1">
           Alumnos

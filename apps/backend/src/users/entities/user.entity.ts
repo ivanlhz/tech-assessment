@@ -12,6 +12,9 @@ export class User {
   lastName: string;
 
   @Prop()
+  username: string;
+
+  @Prop()
   email: string;
 
   @Prop()

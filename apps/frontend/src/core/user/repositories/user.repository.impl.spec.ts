@@ -1,9 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { UserRepositoryImpl } from './user.repository.impl';
 import { ApiUser, userApiDataSource } from '../dataSources/user.api.datasource';
-import { UserMapper } from '../mappers/user.mapper';
-import { PaginatedResponse } from '../../domain/entities/paginated-response.entity';
-import { User } from '../../domain/entities/user.entity';
+import { PaginatedResponse } from '../domain/paginated-response.entity';
+import { User } from '../domain/user.entity';
 
 // Mock del data source
 vi.mock('../dataSources/user.api.datasource', () => ({
