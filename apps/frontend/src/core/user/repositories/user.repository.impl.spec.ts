@@ -35,8 +35,8 @@ describe('UserRepositoryImpl', () => {
     it('should return paginated users correctly', async () => {
       const mockApiResponse: PaginatedResponse<ApiUser> = {
         data: [
-          { _id: '1', name: 'Juan', email: 'juan@test.com', createdAt: '2023-01-01' },
-          { _id: '2', name: 'María', email: 'maria@test.com', createdAt: '2023-01-02' }
+          { _id: '1', name: 'Juan', email: 'juan@test.com', createdAt: '2023-01-01', lastName: 'Perez', username: 'juanperez' },
+          { _id: '2', name: 'María', email: 'maria@test.com', createdAt: '2023-01-02', lastName: 'Lopez', username: 'marialopez' }
         ],
         total: 2,
         page: 1,
@@ -45,17 +45,15 @@ describe('UserRepositoryImpl', () => {
       };
 
       const mockMappedUsers: User[] = [
-        { id: '1', name: 'Juan', email: 'juan@test.com' },
-        { id: '2', name: 'María', email: 'maria@test.com' }
+        { id: '1', name: 'Juan', email: 'juan@test.com', lastName: 'Perez', username: 'juanperez' },
+        { id: '2', name: 'María', email: 'maria@test.com', lastName: 'Lopez', username: 'marialopez' }
       ];
 
       vi.mocked(userApiDataSource.getUsers).mockResolvedValue(mockApiResponse);
-      vi.mocked(UserMapper.fromApiToEntityList).mockReturnValue(mockMappedUsers);
 
       const result = await userRepository.getUsers(1, 10);
 
       expect(userApiDataSource.getUsers).toHaveBeenCalledWith(1, 10);
-      expect(UserMapper.fromApiToEntityList).toHaveBeenCalledWith(mockApiResponse.data);
       expect(result).toEqual({
         ...mockApiResponse,
         data: mockMappedUsers
@@ -73,16 +71,14 @@ describe('UserRepositoryImpl', () => {
 
   describe('findById', () => {
     it('should return mapped user when found', async () => {
-      const mockApiUser = { _id: '1', name: 'Juan', email: 'juan@test.com', createdAt: '2023-01-01' };
-      const mockMappedUser: User = { id: '1', name: 'Juan', email: 'juan@test.com' };
+      const mockApiUser = { _id: '1', name: 'Juan', email: 'juan@test.com', createdAt: '2023-01-01', lastName: 'Perez', username: 'juanperez' };
+      const mockMappedUser: User = { id: '1', name: 'Juan', email: 'juan@test.com', lastName: 'Perez', username: 'juanperez' };
 
       vi.mocked(userApiDataSource.findById).mockResolvedValue(mockApiUser);
-      vi.mocked(UserMapper.fromApiToEntity).mockReturnValue(mockMappedUser);
 
       const result = await userRepository.findById('1');
 
       expect(userApiDataSource.findById).toHaveBeenCalledWith('1');
-      expect(UserMapper.fromApiToEntity).toHaveBeenCalledWith(mockApiUser);
       expect(result).toEqual(mockMappedUser);
     });
 
@@ -92,7 +88,6 @@ describe('UserRepositoryImpl', () => {
       const result = await userRepository.findById('nonexistent');
 
       expect(userApiDataSource.findById).toHaveBeenCalledWith('nonexistent');
-      expect(UserMapper.fromApiToEntity).not.toHaveBeenCalled();
       expect(result).toBeNull();
     });
 
@@ -107,22 +102,20 @@ describe('UserRepositoryImpl', () => {
 
   describe('create', () => {
     it('should create and return mapped user', async () => {
-      const newUser = { name: 'Nuevo Usuario', email: 'nuevo@test.com' };
-      const mockApiUser = { _id: '3', name: 'Nuevo Usuario', email: 'nuevo@test.com', createdAt: '2023-01-03' };
-      const mockMappedUser: User = { id: '3', name: 'Nuevo Usuario', email: 'nuevo@test.com' };
+      const newUser = { name: 'Nuevo Usuario', email: 'nuevo@test.com', lastName: 'Apellido', username: 'nuevo' };
+      const mockApiUser = { _id: '3', name: 'Nuevo Usuario', email: 'nuevo@test.com', createdAt: '2023-01-03', lastName: 'Apellido', username: 'nuevo' };
+      const mockMappedUser: User = { id: '3', name: 'Nuevo Usuario', email: 'nuevo@test.com', lastName: 'Apellido', username: 'nuevo' };
 
       vi.mocked(userApiDataSource.create).mockResolvedValue(mockApiUser);
-      vi.mocked(UserMapper.fromApiToEntity).mockReturnValue(mockMappedUser);
 
       const result = await userRepository.create(newUser);
 
       expect(userApiDataSource.create).toHaveBeenCalledWith(newUser);
-      expect(UserMapper.fromApiToEntity).toHaveBeenCalledWith(mockApiUser);
       expect(result).toEqual(mockMappedUser);
     });
 
     it('should handle creation errors correctly', async () => {
-      const newUser = { name: 'Usuario', email: 'usuario@test.com' };
+      const newUser = { name: 'Usuario', email: 'usuario@test.com', lastName: 'Apellido', username: 'usuario' };
       const errorMessage = 'Creation failed';
       vi.mocked(userApiDataSource.create).mockRejectedValue(new Error(errorMessage));
       await expect(userRepository.create(newUser)).rejects.toThrow(errorMessage);
@@ -133,17 +126,15 @@ describe('UserRepositoryImpl', () => {
   describe('update', () => {
     it('should update and return mapped user', async () => {
       const userId = '1';
-      const updateData = { name: 'Nombre Actualizado' };
-      const mockUpdatedApiUser = { _id: '1', name: 'Nombre Actualizado', email: 'juan@test.com', createdAt: '2023-01-01' };
-      const mockMappedUser: User = { id: '1', name: 'Nombre Actualizado', email: 'juan@test.com' };
+      const updateData = { name: 'Nombre Actualizado', lastName: 'Apellido', email: 'usuario@test.com', username: 'usuario' };
+      const mockUpdatedApiUser = { _id: '1', name: 'Nombre Actualizado', email: 'juan@test.com', createdAt: '2023-01-01', lastName: 'Apellido', username: 'usuario' };
+      const mockMappedUser: User = { id: '1', name: 'Nombre Actualizado', email: 'juan@test.com', lastName: 'Apellido', username: 'usuario' };
 
       vi.mocked(userApiDataSource.update).mockResolvedValue(mockUpdatedApiUser);
-      vi.mocked(UserMapper.fromApiToEntity).mockReturnValue(mockMappedUser);
 
       const result = await userRepository.update(userId, updateData);
 
       expect(userApiDataSource.update).toHaveBeenCalledWith(userId, updateData);
-      expect(UserMapper.fromApiToEntity).toHaveBeenCalledWith(mockUpdatedApiUser);
       expect(result).toEqual(mockMappedUser);
     });
 

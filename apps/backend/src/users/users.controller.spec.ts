@@ -47,8 +47,8 @@ describe('UsersController', () => {
       const createUserDto: CreateUserDto = {
         name: 'Test',
         lastName: 'User',
-        password: 'password',
         email: 'test@example.com',
+        username: 'testuser',
       };
       mockUsersService.create.mockResolvedValue(mockUser);
 
