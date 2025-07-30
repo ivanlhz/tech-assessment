@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useForm, useController } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -8,6 +8,7 @@ import { Input, Switch } from '../../atoms';
 import { Form, ButtonWrapper, Title } from './CreateStudentModal.styled';
 import { createStudentSchema, CreateStudentFormValues } from './CreateStudentModal.schema';
 import { User } from '../../../core/user/domain/user.entity';
+import DeactivateUserModal from '../DeactivateUserModal/DeactivateUserModal';
 
 interface CreateStudentModalProps {
   isOpen: boolean;
@@ -18,6 +19,8 @@ interface CreateStudentModalProps {
 }
 
 const CreateStudentModal: React.FC<CreateStudentModalProps> = ({ isOpen, onClose, onSubmit, isSubmitting, data }) => {
+  const [isDeactivateModalOpen, setIsDeactivateModalOpen] = useState(false);
+  
   const {
     register,
     handleSubmit,
@@ -58,6 +61,23 @@ const CreateStudentModal: React.FC<CreateStudentModalProps> = ({ isOpen, onClose
     }
   }, [isOpen, data, reset]);
 
+  const handleSwitchChange = (checked: boolean) => {
+    if (!checked && isActiveField.value === true) {
+      setIsDeactivateModalOpen(true);
+    } else {
+      isActiveField.onChange(checked);
+    }
+  };
+
+  const handleConfirmDeactivate = () => {
+    isActiveField.onChange(false);
+    setIsDeactivateModalOpen(false);
+  };
+
+  const handleCancelDeactivate = () => {
+    setIsDeactivateModalOpen(false);
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <Title>{data ? 'Editar Alumno' : 'Crear Alumno'}</Title>
@@ -92,7 +112,7 @@ const CreateStudentModal: React.FC<CreateStudentModalProps> = ({ isOpen, onClose
           <Switch
             label="Usuario activo"
             checked={isActiveField.value ?? true}
-            onChange={isActiveField.onChange}
+            onChange={handleSwitchChange}
           />
         )}
         <ButtonWrapper>
@@ -102,6 +122,12 @@ const CreateStudentModal: React.FC<CreateStudentModalProps> = ({ isOpen, onClose
           </Button>
         </ButtonWrapper>
       </Form>
+      
+      <DeactivateUserModal
+        isOpen={isDeactivateModalOpen}
+        onClose={handleCancelDeactivate}
+        onConfirm={handleConfirmDeactivate}
+      />
     </Modal>
   );
 };
