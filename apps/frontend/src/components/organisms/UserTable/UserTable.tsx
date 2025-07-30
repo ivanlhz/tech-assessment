@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Table } from '../../molecules/Table';
 import { User } from '../../../core/user/domain/user.entity';
+import { Badge } from '../../atoms';
 
 interface UserTableProps {
   users: User[];
@@ -17,6 +18,7 @@ interface UserTableData {
   username: string;
   email: string;
   phone: string;
+  isActive: boolean;
 }
   
 
@@ -29,6 +31,15 @@ export const UserTable = ({
   onItemsPerPageChange 
 }: UserTableProps) => {
   const columns = useMemo<ColumnDef<UserTableData>[]>(() => [
+    {
+      header: '',
+      accessorKey: 'isActive',
+      cell: ({ row }) => (
+        <Badge variant={row.getValue('isActive') ? 'active' : 'inactive'}>
+          {row.getValue('isActive') ? 'Activo' : 'Inactivo'}
+        </Badge>
+       ),
+    },
     {
       header: 'Nombre y Apellidos',
       accessorKey: 'name',
@@ -48,10 +59,11 @@ export const UserTable = ({
   ], []);
 
   const usersData = useMemo<UserTableData[]>(() => users.map(user => ({
+    isActive: user.isActive,
     name: `${user.name} ${user.lastName}`,
     username: user.username,
     email: user.email,
-    phone: user.phone || ''
+    phone: user.phone || '',
   })), [users]);
 
   return (
