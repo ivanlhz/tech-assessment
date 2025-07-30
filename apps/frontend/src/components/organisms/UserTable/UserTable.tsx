@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { ColumnDef } from '@tanstack/react-table';
+import { ColumnDef, Row } from '@tanstack/react-table';
 import { Table } from '../../molecules/Table';
 import { User } from '../../../core/user/domain/user.entity';
 import { Badge } from '../../atoms';
@@ -11,16 +11,8 @@ interface UserTableProps {
   itemsPerPage: number;
   onPageChange: (page: number) => void;
   onItemsPerPageChange: (items: number) => void;
+  handleRowClick: (row: Row<User>) => void;
 }
-
-interface UserTableData {
-  name: string;
-  username: string;
-  email: string;
-  phone: string;
-  isActive: boolean;
-}
-  
 
 export const UserTable = ({ 
   users,
@@ -28,21 +20,23 @@ export const UserTable = ({
   currentPage,
   itemsPerPage,
   onPageChange,
-  onItemsPerPageChange 
+  onItemsPerPageChange,
+  handleRowClick 
 }: UserTableProps) => {
-  const columns = useMemo<ColumnDef<UserTableData>[]>(() => [
+  const columns = useMemo<ColumnDef<User>[]>(() => [
     {
       header: '',
       accessorKey: 'isActive',
       cell: ({ row }) => (
-        <Badge variant={row.getValue('isActive') ? 'active' : 'inactive'}>
-          {row.getValue('isActive') ? 'Activo' : 'Inactivo'}
+        <Badge variant={row.original.isActive ? 'active' : 'inactive'}>
+          {row.original.isActive ? 'Activo' : 'Inactivo'}
         </Badge>
        ),
     },
     {
       header: 'Nombre y Apellidos',
-      accessorKey: 'name',
+      accessorFn: (row) => `${row.name} ${row.lastName}`,
+      id: 'name',
     },
     {
       header: 'Usuario',
@@ -58,23 +52,16 @@ export const UserTable = ({
     }
   ], []);
 
-  const usersData = useMemo<UserTableData[]>(() => users.map(user => ({
-    isActive: user.isActive,
-    name: `${user.name} ${user.lastName}`,
-    username: user.username,
-    email: user.email,
-    phone: user.phone || '',
-  })), [users]);
-
   return (
-    <Table<UserTableData>
-      data={usersData}
+    <Table<User>
+      data={users}
       columns={columns}
       totalItems={totalItems}
       itemsPerPage={itemsPerPage}
       currentPage={currentPage}
       onPageChange={onPageChange}
       onItemsPerPageChange={onItemsPerPageChange}
+      handleRowClick={handleRowClick}
     />
   );
 };

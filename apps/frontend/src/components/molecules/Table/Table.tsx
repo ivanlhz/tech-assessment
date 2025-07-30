@@ -20,7 +20,8 @@ export const Table = <T extends object>({
   itemsPerPage,
   currentPage,
   onPageChange,
-  onItemsPerPageChange
+  onItemsPerPageChange,
+  handleRowClick
 }: TableProps<T>) => {
   const table = useReactTable({
     data,
@@ -74,7 +75,7 @@ export const Table = <T extends object>({
               </tr>
             ) : (
               table.getRowModel().rows.map((row) => (
-                <tr key={row.id}>
+                <tr key={row.id} onClick={() => handleRowClick(row)}>
                   {row.getVisibleCells().map((cell) => (
                     <td key={cell.id}>
                       {flexRender(

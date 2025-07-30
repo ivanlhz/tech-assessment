@@ -10,10 +10,14 @@ export class UserRepositoryImpl implements UserRepository {
     
     return {
       ...paginatedApiResult,
-      data: paginatedApiResult.data.map((user) => ({
-        id: user._id,
-        ...user
-      })),
+      data: paginatedApiResult.data.map((user) => {
+        // Usar siempre _id de MongoDB, ignorar cualquier campo 'id' del DB.json original
+        const { id: originalId, ...userWithoutId } = user;
+        return {
+          id: user._id,
+          ...userWithoutId
+        };
+      }),
     };
   }
 
@@ -22,25 +26,31 @@ export class UserRepositoryImpl implements UserRepository {
     if (!apiUser) {
       return null;
     }
-    return  {
+    // Usar siempre _id de MongoDB, ignorar cualquier campo 'id' del DB.json original
+    const { id: originalId, ...userWithoutId } = apiUser;
+    return {
       id: apiUser._id,
-      ...apiUser
-    }
+      ...userWithoutId
+    };
   }
 
   async create(user: Omit<User, 'id'>): Promise<User> {
     const apiUser = await userApiDataSource.create(user);
+    // Usar siempre _id de MongoDB, ignorar cualquier campo 'id' del DB.json original
+    const { id: originalId, ...userWithoutId } = apiUser;
     return {
       id: apiUser._id,
-      ...apiUser
+      ...userWithoutId
     };
   }
 
   async update(id: string, user: Partial<Omit<User, 'id'>>): Promise<User> {
     const updatedApiUser = await userApiDataSource.update(id, user);
+    // Usar siempre _id de MongoDB, ignorar cualquier campo 'id' del DB.json original
+    const { id: originalId, ...userWithoutId } = updatedApiUser;
     return {
       id: updatedApiUser._id,
-      ...updatedApiUser
+      ...userWithoutId
     };
   }
 

@@ -3,12 +3,14 @@ import { PaginatedResponse } from '../domain/paginated-response.entity';
 
 export interface ApiUser {
   _id: string;
+  id?: string; // ID opcional del DB.json original
   name: string;
   lastName: string;
   email: string;
   username: string;
   phone?: string;
   createdAt: string;
+  isActive: boolean;
 }
 
 class UserApiDataSource {

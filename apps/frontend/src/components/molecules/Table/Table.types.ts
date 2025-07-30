@@ -1,4 +1,4 @@
-import { ColumnDef } from '@tanstack/react-table';
+import { ColumnDef, Row } from '@tanstack/react-table';
 
 export interface TableProps<T> {
   data: T[];
@@ -9,4 +9,5 @@ export interface TableProps<T> {
   currentPage: number;
   onPageChange: (page: number) => void;
   onItemsPerPageChange: (items: number) => void;
+  handleRowClick: (row: Row<T>) => void;
 }
