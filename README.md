@@ -1,6 +1,6 @@
-# Prueba técnica
+# Prueba Técnica - Sistema de Gestión de Usuarios
 
-## Contexto y requerimientos:
+## 📋 Contexto y Requerimientos
 
 Estamos desarrollando software para academias. Para estas la gestión de usuarios es primordial.
 Las listas de usuarios son grandes y contienen muchísimos datos sobre el usuario,
@@ -10,7 +10,7 @@ usar los datos del JSON como base de datos, este JSON esta situado en la raíz d
 Proporcionamos en este repositorio un boilerplate con un stack similar al utilizado en Ucademy, NestJS para el backend y React para
 el frontend.
 
-## Enlaces:
+## 🔗 Enlaces
 
 [Interfaz de usuario](https://www.figma.com/file/r1zwsMJU7IAsBJVuFLZHPK/Technical-Assessment?type=design&node-id=0%3A1&mode=design&t=tubwoMUyG8Lc4z9F-1)
 
@@ -18,14 +18,124 @@ el frontend.
 
 PD: El objetivo de la prueba es simplemente valorar las desiciones que toma el candidato a la hora de realizar la implementación. Hay muchas soluciones válidas a lo que aquí se plantea.
 
-## Entrega:
+## 📦 Entrega
 
 Una vez finalizada la prueba se deberá entregar en un archivo comprimido (zip, tar.gz, etc) con el nombre del candidato.
 
-# Notas del candidato:
-Estas son las notas de Ivan López Hernández sobre la prueba técnica y del porque de ciertas decisiones.
+## 🏗️ Estructura del Proyecto
 
-## Sobre DOCKER y la Base de Datos
+Este es un monorepo basado en **Nx** con la siguiente estructura:
+
+```
+tech-assessment/
+├── apps/
+│   ├── backend/          # API NestJS
+│   │   ├── src/
+│   │   │   ├── users/    # Módulo de usuarios
+│   │   │   ├── app.module.ts
+│   │   │   └── main.ts
+│   │   ├── .env.example  # Variables de entorno
+│   │   └── project.json  # Configuración Nx
+│   └── frontend/         # Aplicación React
+│       ├── src/
+│       │   ├── app/      # Componente principal
+│       │   ├── components/ # Componentes UI (Atomic Design)
+│       │   ├── core/     # Arquitectura limpia (casos de uso, repositorios)
+│       │   ├── hooks/    # Custom hooks
+│       │   ├── theme/    # Configuración de tema
+│       │   └── utils/    # Utilidades
+│       ├── index.html
+│       └── vite.config.ts
+├── DB.json              # Base de datos inicial
+├── docker-compose.yml   # Configuración MongoDB
+├── package.json         # Dependencias del workspace
+└── nx.json             # Configuración Nx
+```
+
+## 🛠️ Tecnologías Utilizadas
+
+### Backend
+- **NestJS** - Framework Node.js
+- **MongoDB** con **Mongoose** - Base de datos
+- **Class Validator** - Validación de DTOs
+- **Jest** - Testing
+
+### Frontend
+- **React 18** - Librería UI
+- **TypeScript** - Tipado estático
+- **Styled Components** - Estilos CSS-in-JS
+- **React Query** - Gestión de estado servidor
+- **React Hook Form** - Gestión de formularios
+- **React Router** - Enrutado
+- **Vitest** - Testing
+- **Vite** - Build tool
+
+### Herramientas de Desarrollo
+- **Nx** - Monorepo y build system
+- **ESLint** - Linting
+- **Prettier** - Formateo de código
+- **Docker** - Containerización
+
+## 🚀 Comandos de Ejecución
+
+### Instalar dependencias:
+```bash
+npm install
+```
+
+### Levantar la base de datos MongoDB:
+```bash
+docker-compose up -d
+```
+
+### Configurar las variables de entorno del backend:
+```bash
+cp apps/backend/.env.example apps/backend/.env
+```
+
+### Levantar el backend:
+```bash
+npm run start:backend
+```
+El backend estará disponible en `http://localhost:3000`
+
+### Levantar el frontend:
+```bash
+npm run start:frontend
+```
+El frontend estará disponible en `http://localhost:4200`
+
+### 🗄️ Estructura de la Base de Datos
+
+La base de datos se inicializa automáticamente con los datos del archivo `DB.json` ubicado en la raíz del proyecto. Este archivo contiene una colección de usuarios con la siguiente estructura:
+
+```json
+{
+  "_id": { "$oid": "..." },
+  "name": "Nombre del usuario",
+  "email": "email@ejemplo.com",
+  "isActive": true,
+  "createdAt": "2023-01-01T00:00:00.000Z",
+  "updatedAt": "2023-01-01T00:00:00.000Z"
+}
+```
+
+### 🧪 Testing
+
+El proyecto incluye tests unitarios y de integración:
+
+- **Frontend**: Tests con Vitest y Testing Library
+- **Backend**: Tests con Jest
+
+```bash
+# Ejecutar todos los tests
+npm run test:frontend
+npm run test:backend
+
+# Tests en modo watch
+nx test frontend --watch
+nx test backend --watch
+```
 Aunque en la prueba tecnica no se explica explicitamente que el archivo DB.json son datos exportados de una base de datos MongoDB, al ver que este contenido oid, decidi crear un contenedor de MongoDB con el archivo DB.json importado.
 
 ## Paginación y Mejoras de Rendimiento en el Backend
@@ -70,7 +180,55 @@ El fichero `core/dependencies.ts` actúa como un inyector de dependencias simple
 
 Este enfoque asegura que la UI solo conozca los casos de uso, manteniendo la lógica de negocio y el acceso a datos completamente aislados.
 
-### Cómo levantar el entorno
+## 🎨 Decisiones de Diseño e Implementación
+
+### Simplificación de la Interfaz de Usuario
+
+Se tomó la decisión de **simplificar el diseño original** para mejorar la experiencia de usuario y optimizar el flujo de trabajo:
+
+- **Edición inline**: En lugar de tener modales separados para ver y editar usuarios, se implementó un sistema donde al hacer clic en una fila de la tabla, se permite **modificar el usuario directamente** mientras se visualizan sus datos.
+- **Flujo unificado**: Esta decisión elimina la necesidad de múltiples ventanas modales y reduce la fricción en el proceso de edición de usuarios.
+- **Mejor UX**: Los usuarios pueden ver y editar la información de forma más fluida y natural.
+
+### Navegación y Estructura
+
+- **Barra lateral expandida**: Se agregó un **elemento adicional a la barra lateral** para implementar un sistema de navegación más robusto.
+- **Preparación para escalabilidad**: Esta decisión prepara la aplicación para futuras funcionalidades y secciones adicionales.
+
+### Limitaciones por Tiempo
+
+Debido a las restricciones temporales del proyecto, se tomaron las siguientes decisiones pragmáticas:
+
+1. **Testing parcial**: 
+   - No se implementaron tests para toda la aplicación
+   - Se priorizaron los tests más críticos (componentes base y lógica de negocio)
+   - Los tests existentes cubren las funcionalidades principales
+
+2. **Custom Hooks**: 
+   - No se crearon custom hooks específicos para encapsular la lógica de componentes
+   - La lógica se mantuvo directamente en los componentes por simplicidad
+   - Esta decisión permite un desarrollo más rápido aunque sacrifica algo de reutilización
+
+3. **Enfoque MVP**: 
+   - Se priorizó entregar una aplicación funcional y bien estructurada
+   - Las optimizaciones y refactorizaciones avanzadas se dejaron para iteraciones futuras
+
+### Justificación Técnica
+
+Estas decisiones se basaron en:
+- **Tiempo disponible** para la prueba técnica
+- **Priorización de funcionalidades core** sobre optimizaciones avanzadas
+- **Equilibrio entre calidad de código y entrega funcional**
+- **Experiencia de usuario** como factor principal en las decisiones de diseño
+
+## 🔧 Configuración del Entorno
+
+### Prerrequisitos
+- Node.js (versión 18 o superior)
+- npm
+- Docker y Docker Compose
+
+### Configuración Inicial
 
 **Requisitos:**
 - Tener [Docker](https://www.docker.com/get-started/) instalado y en ejecución en tu sistema.
