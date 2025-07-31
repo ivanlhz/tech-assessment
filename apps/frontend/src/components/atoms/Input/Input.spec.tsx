@@ -7,6 +7,7 @@ describe('Input', () => {
   const setup = (props = {}) => {
     const defaultProps = {
       label: 'Test Label',
+      name: 'test-input',
       value: '',
       onChange: vi.fn(),
       ...props,

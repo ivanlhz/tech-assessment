@@ -5,13 +5,15 @@ import { Typography } from '../Typography';
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, className, error, ...rest }, ref) => {
+    const labelId = `${rest.name || 'input'}-label`;
+    
     return (
       <InputWrapper className={className}>
-        <Label htmlFor={rest.name}>{label}</Label>
+        <Label id={labelId} htmlFor={rest.name}>{label}</Label>
         <StyledInput 
           ref={ref}
           id={rest.name} 
-          aria-labelledby={label} 
+          aria-labelledby={labelId} 
           {...rest} 
         />
         {error && (

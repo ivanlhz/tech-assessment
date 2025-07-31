@@ -11,11 +11,15 @@ export class UserRepositoryImpl implements UserRepository {
     return {
       ...paginatedApiResult,
       data: paginatedApiResult.data.map((user) => {
-        // Usar siempre _id de MongoDB, ignorar cualquier campo 'id' del DB.json original
-        const { id: originalId, ...userWithoutId } = user;
+        // Transformar ApiUser a User, usando solo los campos necesarios
         return {
           id: user._id,
-          ...userWithoutId
+          name: user.name,
+          lastName: user.lastName,
+          email: user.email,
+          username: user.username,
+          phone: user.phone,
+          isActive: user.isActive
         };
       }),
     };
@@ -26,31 +30,43 @@ export class UserRepositoryImpl implements UserRepository {
     if (!apiUser) {
       return null;
     }
-    // Usar siempre _id de MongoDB, ignorar cualquier campo 'id' del DB.json original
-    const { id: originalId, ...userWithoutId } = apiUser;
+    // Transformar ApiUser a User, usando solo los campos necesarios
     return {
       id: apiUser._id,
-      ...userWithoutId
+      name: apiUser.name,
+      lastName: apiUser.lastName,
+      email: apiUser.email,
+      username: apiUser.username,
+      phone: apiUser.phone,
+      isActive: apiUser.isActive
     };
   }
 
   async create(user: Omit<User, 'id'>): Promise<User> {
     const apiUser = await userApiDataSource.create(user);
-    // Usar siempre _id de MongoDB, ignorar cualquier campo 'id' del DB.json original
-    const { id: originalId, ...userWithoutId } = apiUser;
+    // Transformar ApiUser a User, usando solo los campos necesarios
     return {
       id: apiUser._id,
-      ...userWithoutId
+      name: apiUser.name,
+      lastName: apiUser.lastName,
+      email: apiUser.email,
+      username: apiUser.username,
+      phone: apiUser.phone,
+      isActive: apiUser.isActive
     };
   }
 
   async update(id: string, user: Partial<Omit<User, 'id'>>): Promise<User> {
     const updatedApiUser = await userApiDataSource.update(id, user);
-    // Usar siempre _id de MongoDB, ignorar cualquier campo 'id' del DB.json original
-    const { id: originalId, ...userWithoutId } = updatedApiUser;
+    // Transformar ApiUser a User, usando solo los campos necesarios
     return {
       id: updatedApiUser._id,
-      ...userWithoutId
+      name: updatedApiUser.name,
+      lastName: updatedApiUser.lastName,
+      email: updatedApiUser.email,
+      username: updatedApiUser.username,
+      phone: updatedApiUser.phone,
+      isActive: updatedApiUser.isActive
     };
   }
 
