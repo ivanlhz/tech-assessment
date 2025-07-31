@@ -3,7 +3,7 @@ import { Icon } from '../../atoms/Icon';
 import { Typography } from '../../atoms/Typography';
 import { useState } from 'react';
 import { UserTable } from '../../organisms/UserTable';
-import { Header, PageWrapper } from './UsersPage.styled';
+import { Header, Main, PageWrapper } from './UsersPage.styled';
 import CreateStudentModal from '../../organisms/CreateStudentModal';
 import { useGetUsers } from '../../../hooks/useGetUsers';
 import { useCreateUser } from '../../../hooks/useCreateUser';
@@ -65,7 +65,7 @@ export const UsersPage = () => {
           <b>Nuevo alumno</b>
         </Button>
       </Header>
-      <main>
+      <Main>
         <UserTable
           users={paginatedUsers?.data || []}
           totalItems={paginatedUsers?.total || 0}
@@ -75,7 +75,7 @@ export const UsersPage = () => {
           onItemsPerPageChange={setItemsPerPage}
           handleRowClick={handleRowClick}
         />
-      </main>
+      </Main>
     </PageWrapper>
   );
 }

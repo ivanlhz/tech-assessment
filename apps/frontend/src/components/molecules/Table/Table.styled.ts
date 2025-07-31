@@ -5,6 +5,13 @@ export const TableWrapper = styled.div`
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   box-shadow: ${({ theme }) => theme.shadows.sm};
   overflow: hidden;
+  width: 100%;
+`;
+
+export const SectionWrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 `;
 
 export const StyledTable = styled.table`

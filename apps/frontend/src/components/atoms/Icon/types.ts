@@ -10,6 +10,8 @@ export const iconNames = [
   'graduation-cap',
   'logo',
   'mobile',
+  'bell',
+  'circle-question',
 ] as const;
 
 export type IconName = (typeof iconNames)[number];

@@ -84,7 +84,8 @@ export const colors = {
     border: {
       light: '#E5E7EB',
       medium: '#D1D5DB',
-      dark: '#9CA3AF'
+      dark: '#9CA3AF',
+      sideBar: '#EEF0F5'
     }
   } as const;
   

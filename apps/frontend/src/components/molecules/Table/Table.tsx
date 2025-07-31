@@ -8,6 +8,7 @@ import { TableProps } from './Table.types';
 import {
   TableWrapper,
   StyledTable,
+  SectionWrapper,
 } from './Table.styled';
 import { Pagination } from '../Pagination';
 
@@ -49,7 +50,7 @@ export const Table = <T extends object>({
   });
 
   return (
-    <>
+    <SectionWrapper>
       <TableWrapper>
         <StyledTable>
           <thead>
@@ -91,6 +92,6 @@ export const Table = <T extends object>({
         </StyledTable>
       </TableWrapper>
       <Pagination table={table} totalItems={totalItems} />
-    </>
+    </SectionWrapper>
   );
 };
