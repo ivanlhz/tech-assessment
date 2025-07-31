@@ -38,7 +38,10 @@ export const StyledTable = styled.table`
   tbody {
     tr {
       border-bottom: 1px solid ${({ theme }) => theme.colors.border.light};
-
+      &:hover {
+        cursor: pointer;
+        background-color: ${({ theme }) => theme.colors.table.selectorBorder};
+      }
       &:last-child {
         border-bottom: none;
       }
