@@ -7,7 +7,8 @@ export const Sidebar: React.FC = () => {
     return (
         <SidebarWrapper>
            <SideBarHeader />
-           <SidebarElement isActive title="Alumnos" icon="graduation-cap" />
+           <SidebarElement to="/" title="Users" icon="graduation-cap" />
+           <SidebarElement to="/tech-info" title="Tech Info" icon="circle-question" />
         </SidebarWrapper>
     )
 }
